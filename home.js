@@ -82,10 +82,13 @@ function createServerItem(serverData) {
 
 // Affichage de la liste de serveurs depuis Firebase
 const serverList = document.getElementById('server-list');
+const serverItems = [];
+
 serversRef.orderByChild('timestamp').on('child_added', (snapshot) => {
     const serverData = snapshot.val();
     const serverItem = createServerItem(serverData);
-    serverList.insertBefore(serverItem, serverList.firstChild);
+    serverItems.push(serverItem);
+    serverList.appendChild(serverItem);
 });
 document.addEventListener('DOMContentLoaded', () => {
     const expandedCards = document.querySelectorAll('.server-card.expanded');
@@ -97,3 +100,48 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.remove('expanded');
     });
 });
+
+const searchButton = document.getElementById('search-button');
+const searchInput = document.getElementById('search-input');
+searchButton.addEventListener('click', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const serverCards = document.querySelectorAll('.server-card');
+    
+    serverCards.forEach(card => {
+        const serverName = card.querySelector('h2').textContent.toLowerCase();
+        const serverDescription = card.querySelector('p').textContent.toLowerCase();
+        
+        if (serverName.includes(searchTerm) || serverDescription.includes(searchTerm)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+
+serverItems.forEach((serverItem, index) => {
+    const expandButton = serverItem.querySelector('.expand-button');
+    const description = serverItem.querySelector('.description');
+    const originalDescription = serverItem.dataset.originalDescription;
+
+    expandButton.addEventListener('click', () => {
+        if (description.style.maxHeight === 'none') {
+            description.style.maxHeight = '60px';
+            expandButton.textContent = 'Agrandir';
+        } else {
+            closeAllDescriptions();
+            description.style.maxHeight = 'none';
+            expandButton.textContent = 'Réduire';
+        }
+    });
+});
+
+function closeAllDescriptions() {
+    serverItems.forEach((serverItem) => {
+        const description = serverItem.querySelector('.description');
+        const expandButton = serverItem.querySelector('.expand-button');
+        description.style.maxHeight = '60px';
+        expandButton.textContent = 'Agrandir';
+    });
+}
+

@@ -1,48 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Server List</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="background"></div>
-    <div class="container">
-        <h1>Discord Server List</h1>
-        <form id="server-form">
-    <div class="form-group">
-        <label for="discord-link">Discord Server Link</label>
-        <input type="text" id="discord-link" placeholder="Enter server link">
-    </div>
-    <div class="form-group">
-        <label for="discord-avatar">URL Profile Photo</label>
-        <input type="text" id="discord-avatar" placeholder="Enter profile photo URL">
-    </div>
-    <div class="form-group">
-        <label for="discord-name">Discord Name</label>
-        <input type="text" id="discord-name" placeholder="Enter server name">
-    </div>
-    <div class="form-group">
-        <label for="discord-description">Discord Description</label>
-        <textarea id="discord-description" placeholder="Enter server description" maxlength="913"></textarea>
-        <span id="description-length">0 / 913 characters</span>
-    </div>
-    <button class="submit-button" type="submit">Submit</button>
-</form>
-<div id="bottom-content">
-    <div id="settings-button">
-        <a href="https://discord.com/users/830858630315376730" target="_blank">Me contacter</a>
-    </div>
+const firebaseConfig = {
+  apiKey: "AIzaSyDJG_SyLEOFJLQVWaKbOKy-on3axEiRwZo",
+  authDomain: "utopian-spring-378808.firebaseapp.com",
+  databaseURL: "https://utopian-spring-378808-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "utopian-spring-378808",
+  storageBucket: "utopian-spring-378808.appspot.com",
+  messagingSenderId: "8495813117",
+  appId: "1:8495813117:web:9dc5b7c89fd23996128994"
+};
+firebase.initializeApp(firebaseConfig);
 
-    <div id="creator-info">
-        Créé par Freakidann
-    </div>
-</div>
-        <div class="server-list" id="server-list"></div>
-    </div>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+// Référence à la base de données
+const database = firebase.database();
+const serversRef = database.ref('servers');
+
+// Gestionnaire d'événements pour la soumission du formulaire
+const serverForm = document.getElementById('server-form');
+const discordLinkInput = document.getElementById('discord-link');
+const discordAvatarInput = document.getElementById('discord-avatar');
+const discordNameInput = document.getElementById('discord-name');
+const discordDescriptionInput = document.getElementById('discord-description');
+
+serverForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const discordLink = discordLinkInput.value;
+    const discordAvatar = discordAvatarInput.value;
+    const discordName = discordNameInput.value;
+    const discordDescription = discordDescriptionInput.value;
+
+    // Validation des champs obligatoires et de la longueur de la description
+    if (!discordLink || !discordAvatar || !discordName || !discordDescription) {
+        alert('Veuillez remplir tous les champs.');
+        return;
+    }
+
+    if (discordDescription.length < 50) {
+        alert('La description doit contenir au moins 50 caractères.');
+        return;
+    }
+
+    // Vérification du lien d'invitation Discord
+    if (!discordLink.startsWith('https://discord.gg/')) {
+        alert('Le lien du serveur Discord doit commencer par "https://discord.gg/".');
+        return;
+    }
+
+    // Vérification si un serveur avec le même nom et lien existe déjà
+    const serverExists = await checkServerExistence(discordName, discordLink);
+    
+    if (serverExists) {
+        alert('Un serveur avec le même nom et le même lien d\'invitation existe déjà.');
+        return;
+    }
+
+    // Ajout du serveur à la base de données
+    serversRef.push({
+        discordLink,
+        discordAvatar,
+        discordName,
+        discordDescription,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    });
+
+    // Réinitialisation des champs du formulaire
+    discordLinkInput.value = '';
+    discordAvatarInput.value = '';
+    discordNameInput.value = '';
+    discordDescriptionInput.value = '';
+});
+
+// Fonction pour vérifier l'existence d'un serveur avec le même nom et lien
+async function checkServerExistence(name, link) {
+    const snapshot = await serversRef.orderByChild('discordName').equalTo(name).once('value');
+    const servers = snapshot.val();
+
+    if (!servers) {
+        return false;
+    }
+
+    for (const key in servers) {
+        if (servers[key].discordLink === link) {
+            return true;
+        }
+    }
+
+    return false;
+}

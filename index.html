@@ -4,26 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="home.css">
-    <title>List Serveur Discord - FreakiServ</title>
+    <title>Nom du Site - Liste des Serveurs</title>
 </head>
 <body>
-    <nav class="menu-bar">
-        <h1 class="menu-title">FreakiServ</h1>
-        <a href="index.html" class="menu-item">Accueil</a>
-        <a href="post.html" class="menu-item">Poster un Serveur</a>
-    </nav>
+    <header class="menu-bar">
+        <div class="menu-title">
+            <a href="index.html">FreakiServ</a>
         </div>
-        <div class="menu-creator">Créé par Freakiv3</div>
-    </nav>
-    <div class="container">
-        <h1>Liste des Serveurs</h1>
-        <div id="server-list" class="server-list">
-            <!-- La liste des serveurs sera générée ici -->
+        <div class="menu-items">
+            <a class="menu-item" href="index.html">Accueil</a>
+            <a class="menu-item" href="post.html">Poster un Serveur</a>
+            <a class="menu-item" href="https://discord.com/users/830858630315376730">Me Contacter</a>
         </div>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Rechercher...">
+        <button id="search-button">Rechercher</button>
     </div>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <div class="container" id="server-list">
+        <!-- Les cartes de serveur seront ajoutées ici par JavaScript -->
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-database.js"></script>
     <script src="home.js"></script>
 </body>
 </html>
