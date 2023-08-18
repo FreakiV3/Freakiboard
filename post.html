@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="poster.css">
+	</head>
+	<body class="dark-theme">
+    <title>Poster un Serveur Discord - FreakiServ</title>
+</head>
+<body>
+    <nav class="menu-bar">
+        <h1 class="menu-title">FreakiServ</h1>
+        <a href="index.html" class="menu-item">Accueil</a>
+        <a href="post.html" class="menu-item">Poster un Serveur</a>
+    </nav>
+
+    <div class="container">
+        <h1>Poster un Serveur</h1>
+        <form id="server-form" class="server-form">
+            <label for="discord-link">Discord Server Link:</label>
+            <input type="url" id="discord-link" name="discord-link" required pattern="https://discord.gg/.*">
+
+            <label for="discord-avatar">URL Photo de Profil du Serveur:</label>
+            <input type="url" id="discord-avatar" name="discord-avatar" required>
+
+            <label for="discord-name">Discord Name:</label>
+            <input type="text" id="discord-name" name="discord-name" required>
+
+            <label for="discord-description">Discord Description:</label>
+            <textarea id="discord-description" name="discord-description" required minlength="50"></textarea>
+
+            <button type="submit">Poster le Serveur</button>
+        </form>
+    </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

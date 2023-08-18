@@ -1,0 +1,98 @@
+body, h1, h2, h3, p, ul, li, form {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+/* Barre de menu */
+.menu-bar {
+    background-color: #1f1f1f;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.menu-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.menu-items {
+    display: flex;
+    gap: 20px;
+}
+
+.menu-item {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.menu-item:hover {
+    color: #7289da;
+}
+
+/* Conteneur principal */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulaire pour poster un serveur */
+.server-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.server-form label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.server-form input,
+.server-form textarea {
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+.server-form textarea {
+    resize: vertical;
+}
+
+.server-form button[type="submit"] {
+    background-color: #7289DA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.server-form button[type="submit"]:hover {
+    background-color: #677bc4;
+}
+.menu-creator {
+    color: #7289da;
+    font-size: 0.8rem;
+    margin-right: 10px;
+}
