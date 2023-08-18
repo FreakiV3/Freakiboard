@@ -87,9 +87,9 @@ const serverItems = [];
 serversRef.orderByChild('timestamp').on('child_added', (snapshot) => {
     const serverData = snapshot.val();
     const serverItem = createServerItem(serverData);
-    serverItems.push(serverItem);
-    serverList.appendChild(serverItem);
+    serverList.insertBefore(serverItem, serverList.firstChild); // Insère au début de la liste
 });
+
 document.addEventListener('DOMContentLoaded', () => {
     const expandedCards = document.querySelectorAll('.server-card.expanded');
     expandedCards.forEach(card => {
